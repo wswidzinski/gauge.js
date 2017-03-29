@@ -275,8 +275,13 @@ class Gauge extends BaseGauge
 		gradientType: 0       	# 0 : radial, 1 : linear
 		strokeColor: "#e0e0e0"
 		pointer:
-			length: 0.8
-			strokeWidth: 0.035
+      [
+        {
+          length: 0.8,
+          strokeWidth: 0.035,
+          color: "#eee"
+        }
+      ]
 		angle: 0.15
 		lineWidth: 0.44
 		radiusScale: 1.0
@@ -312,8 +317,8 @@ class Gauge extends BaseGauge
 		@radius = (@availableHeight - @lineWidth/2) / (1.0 + @extraPadding)
 		@ctx.clearRect(0, 0, @canvas.width, @canvas.height)
 		# @render()
-		for gauge in @gp
-			gauge.setOptions(@options.pointer)
+		for gauge, i in @gp
+			gauge.setOptions(@options.pointer[i])
 			gauge.render()
 		return @
 
@@ -335,7 +340,7 @@ class Gauge extends BaseGauge
 		if value.length > @gp.length
 			for i in [0...(value.length - @gp.length)]
 				gp = new GaugePointer(@)
-				gp.setOptions(@options.pointer)
+				gp.setOptions(@options.pointer[i])
 				@gp.push(gp)
 		else if value.length < @gp.length
 			# Delete redundant GaugePointers
